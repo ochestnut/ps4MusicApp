@@ -1,20 +1,41 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { SafeAreaView, View, Button, Text } from 'react-native';
+import ListScreen from './ListScreen';
 
-export default function App() {
+const App = () => {
+  const [screen, setScreen] = useState('Home');
+  const [loggedInUsername, setLoggedInUsername] = useState(''); // Assuming you have a way to get the logged-in user
+
+  const navigateToScreen = (screen) => {
+    setScreen(screen);
+  };
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+    <SafeAreaView>
+      <View>
+        {screen === 'Home' && (
+          <View>
+            <Text>This is the Home Screen</Text>
+            <Button title="Go to Details" onPress={() => navigateToScreen('Details')} />
+            {/* Add a button or any other trigger to navigate to ListScreen */}
+            <Button title="Go to List Screen" onPress={() => navigateToScreen('List')} />
+          </View>
+        )}
+        {screen === 'Details' && (
+          <View>
+            <Text>This is the Details Screen</Text>
+            <Button title="Go to Home" onPress={() => navigateToScreen('Home')} />
+          </View>
+        )}
+        {screen === 'List' && (
+          <View>
+            <Button title="Go to Home" onPress={() => navigateToScreen('Home')} />
+            <ListScreen loggedInUsername={loggedInUsername} />
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+          </View>)}
+      </View>
+    </SafeAreaView>
+  );
+};
+
+export default App;
